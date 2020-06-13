@@ -1416,7 +1416,7 @@ detach_all_weapons()
 {
 	if( isDefined( self.tag_stowed_back ) )
 	{
-		self detach( self.tag_stowed_back, "tag_stowed_back" );
+		//self detach( self.tag_stowed_back, "tag_stowed_back" );
 		self.tag_stowed_back = undefined;
 	}
 	if( isDefined( self.tag_stowed_hip ) )

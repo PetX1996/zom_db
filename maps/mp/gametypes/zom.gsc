@@ -500,7 +500,7 @@ GiveBubble()
 		if(self.pers["team"] != "allies")
 			return;
 
-		if(response == "placebubble" && self.gotbubble) //not exactly sure how .gotbubble could change externally but meh
+		if(response == "placebubble" && isdefined(self.gotbubble) && self.gotbubble) //not exactly sure how .gotbubble could change externally but meh
 		{
 			self thread SpawnBubble();
 			return;
@@ -517,7 +517,7 @@ ClearBubbleOn()
 	{
 		wait .2;
 
-		if(!self.gotbubble || self.health < 1 || self.pers["team"] != "allies")
+		if(!isDefined(self.gotbubble) || !self.gotbubble || self.health < 1 || self.pers["team"] != "allies")
 		{
 			self setStat(2996, 1);
 			return;

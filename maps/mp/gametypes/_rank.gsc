@@ -92,7 +92,14 @@ registerScoreInfo( type, value )
 
 getScoreInfoValue( type )
 {
-	return ( level.scoreInfo[type]["value"] );
+	if (isDefined(level.scoreInfo[type]))
+	{
+		return ( level.scoreInfo[type]["value"] );
+	}
+	else
+	{
+		return 0;
+	}
 }
 
 getScoreInfoLabel( type )
@@ -261,6 +268,8 @@ giveRankXP( type, value )
 
 	if(!isDefined(value)) value = getScoreInfoValue(type);
 	
+	if (!isDefined(self.xpGains)) self.xpGains = [];
+	
 	if(!isDefined(self.xpGains[type])) self.xpGains[type] = 0;
 
 	switch( type )
@@ -407,7 +416,7 @@ updateRankAnnounceHUD()
 	
   notifyData.textIsString = true;
 	notifyData.textLabel = newRankName;
-	notifyData.notifyText = newRankName; //got rid of all the subrank stuff
+	//notifyData.notifyText = newRankName; //got rid of all the subrank stuff
 
 	if(isdefined(self getrank()))
 	{

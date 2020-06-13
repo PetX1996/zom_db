@@ -94,6 +94,9 @@ onMenuResponse()
 			self setClientDvar("cl_zom_spawnprotect", getdvar("scr_zomspawnprotection"));
 			self setClientDvar("cl_zom_spectatetype", getdvar("scr_allowspectate"));
 
+			if (!isDefined(level.rccurrent))
+				level.rccurrent = 0;
+				
 			self.rc = level.rccurrent;
 
 			if(level.rccurrent > (self.rcmax - 6))

@@ -361,8 +361,11 @@ spawnPlayer()
 	
 	prof_begin("spawnPlayer_postUTS");
 	
-	assert(isValidClass(self.class));
-	self maps\mp\gametypes\_class::giveLoadout(self.team, self.class);
+	if (isDefined(self.class))
+	{
+		assert(isValidClass(self.class));
+		self maps\mp\gametypes\_class::giveLoadout(self.team, self.class);
+	}
 	
 	if(level.inPrematchPeriod)
 	{		
@@ -393,7 +396,11 @@ spawnPlayer()
 					self leaderDialogOnPlayer( "defense_obj", "introboost" );
 			}
 
-			self setClientDvar( "scr_objectiveText", getObjectiveHintText( self.pers["team"] ) );			
+			hintText = getObjectiveHintText( self.pers["team"] );
+			if (isDefined(hintText))
+			{
+				self setClientDvar( "scr_objectiveText", hintText );			
+			}
 			thread maps\mp\gametypes\_hud::showClientScoreBar( 5.0 );
 		}
 	}
@@ -1002,10 +1009,13 @@ giveMatchBonus()
 
 GiveItASecond()
 {
+	self endon("disconnect");
+
 	if(level.pp.size > 5 && self.score2 > self maps\mp\gametypes\_persistence::statGet("death_streak"))
 		self maps\mp\gametypes\_persistence::statSet("death_streak", self.score3 ); //highscore
 
 	wait 1;
+
 	self thread maps\mp\gametypes\_rank::giveRankXP("blibble", int(self.score * 0.1));
 }
 
@@ -3524,7 +3534,7 @@ Callback_PlayerDamage( eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, s
 	isaxis = false;
 	isallies = false;
 
-	if(isdefined(self.pers["team"]) && isdefined(eattacker.pers["team"]))
+	if(isdefined(self.pers) && isdefined(self.pers["team"]) && isdefined(eattacker) && isdefined(eattacker.pers) && isdefined(eattacker.pers["team"]))
 	{
 		if(self.pers["team"] == "axis")
 			isaxis = true;
